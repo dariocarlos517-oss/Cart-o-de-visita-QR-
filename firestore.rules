@@ -2,7 +2,7 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Global Safety Net: default-deny catch-all
+    // Bloqueia por padrão todas as coleções não declaradas abaixo.
     match /{document=**} {
       allow read, write: if false;
     }
@@ -18,50 +18,59 @@ service cloud.firestore {
     }
 
     function isValidId(id) {
-      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+      return id is string
+        && id.size() > 0
+        && id.size() <= 128
+        && id.matches('^[a-zA-Z0-9_\\-]+$');
     }
 
+    // Campos alinhados com o modelo de dados utilizado pelo index.html.
     function isValidCard(data) {
-      return data.representativeName is string && data.representativeName.size() <= 100
-        && data.companyName is string && data.companyName.size() <= 100
-        && (!('jobTitle' in data) || (data.jobTitle is string && data.jobTitle.size() <= 100))
-        && (!('bio' in data) || (data.bio is string && data.bio.size() <= 500))
-        && (!('phone' in data) || (data.phone is string && data.phone.size() <= 50))
+      return data.nome is string
+        && data.nome.size() > 0
+        && data.nome.size() <= 100
+        && data.slug is string
+        && data.slug.size() > 0
+        && data.slug.size() <= 128
+        && (!('id' in data) || (data.id is string && data.id.size() <= 128))
+        && (!('profissao' in data) || (data.profissao is string && data.profissao.size() <= 100))
+        && (!('empresa' in data) || (data.empresa is string && data.empresa.size() <= 100))
+        && (!('descricao' in data) || (data.descricao is string && data.descricao.size() <= 500))
+        && (!('telefone' in data) || (data.telefone is string && data.telefone.size() <= 50))
         && (!('whatsapp' in data) || (data.whatsapp is string && data.whatsapp.size() <= 50))
         && (!('email' in data) || (data.email is string && data.email.size() <= 100))
-        && (!('instagram' in data) || (data.instagram is string && data.instagram.size() <= 100))
-        && (!('facebook' in data) || (data.facebook is string && data.facebook.size() <= 100))
-        && (!('linkedin' in data) || (data.linkedin is string && data.linkedin.size() <= 100))
+        && (!('facebook' in data) || (data.facebook is string && data.facebook.size() <= 200))
+        && (!('instagram' in data) || (data.instagram is string && data.instagram.size() <= 200))
+        && (!('tiktok' in data) || (data.tiktok is string && data.tiktok.size() <= 200))
         && (!('website' in data) || (data.website is string && data.website.size() <= 200))
-        && (!('tiktok' in data) || (data.tiktok is string && data.tiktok.size() <= 100))
         && (!('address' in data) || (data.address is string && data.address.size() <= 200))
-        && (!('theme' in data) || (data.theme is string && data.theme.size() <= 50))
-        && (!('logoType' in data) || (data.logoType is string && data.logoType.size() <= 50))
-        && (!('customLogoUrl' in data) || (data.customLogoUrl is string && data.customLogoUrl.size() <= 500))
-        && data.createdBy == request.auth.uid
-        && data.ownerEmail == 'dariocarlos517@gmail.com';
+        && (!('logo' in data) || (data.logo is string && data.logo.size() <= 980000))
+        && (!('size' in data) || (data.size is string && data.size.size() <= 20))
+        && (!('w' in data) || data.w is number)
+        && (!('h' in data) || data.h is number)
+        && (!('ori' in data) || (data.ori is string && data.ori.size() <= 5))
+        && (!('status' in data) || data.status in ['ativo', 'inativo'])
+        && (!('createdAt' in data) || data.createdAt is number)
+        && (!('updatedAt' in data) || data.updatedAt is number);
     }
 
     match /cards/{cardId} {
-      // 1. VISITORS: Anyone can read a specific card to display on scan or shared link
+      // Leitura individual pública para apresentar cartões por QR Code/link.
       allow get: if isValidId(cardId);
 
-      // 2. ADMIN ONLY: Can list the card directory
+      // Apenas o administrador verificado pode listar e gerir cartões.
       allow list: if isVerifiedAdmin();
 
-      // 3. ADMIN ONLY: Only verified dariocarlos517@gmail.com can create cards
       allow create: if isVerifiedAdmin()
         && isValidId(cardId)
-        && isValidCard(request.resource.data);
+        && isValidCard(request.resource.data)
+        && request.resource.data.slug == cardId;
 
-      // 4. ADMIN ONLY: Only verified dariocarlos517@gmail.com can update cards
       allow update: if isVerifiedAdmin()
         && isValidId(cardId)
         && isValidCard(request.resource.data)
-        && request.resource.data.createdBy == resource.data.createdBy
-        && request.resource.data.ownerEmail == resource.data.ownerEmail;
+        && request.resource.data.slug == cardId;
 
-      // 5. ADMIN ONLY: Only verified dariocarlos517@gmail.com can delete cards
       allow delete: if isVerifiedAdmin()
         && isValidId(cardId);
     }

@@ -43,3 +43,23 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - A leitura individual de cartões é pública para qualquer ID válido; a listagem e as operações de escrita exigem o administrador verificado.
 - A validação dos campos do cartão e a verificação de createdBy/ownerEmail são aplicadas na criação e actualização.
 - O limite de 700 KB do logótipo é validado pela aplicação; não é imposto directamente pelas Security Rules.
+
+
+6) Novas funcionalidades: TikTok e localização
+- O formulário de criação/edição de cartões inclui TikTok (nome de utilizador ou link) e Localização (morada ou nome do local).
+- Quando existe TikTok, é apresentado como contacto clicável na página pública do cartão.
+- Quando existe localização, é apresentado um mapa incorporado abaixo dos contactos, com ligação para abrir o local no Google Maps.
+- A localização usa o campo "address", já contemplado nas regras Firestore fornecidas.
+- O mapa depende de ligação à internet e dos serviços de mapas da Google; não é necessário activar Firebase Storage nem o plano Blaze.
+
+
+6) TikTok e localização
+- O formulário de criação/edição inclui TikTok (nome de utilizador ou link) e Localização (morada ou nome do local).
+- O TikTok aparece como contacto clicável na página pública.
+- A localização aparece como mapa abaixo dos contactos, com ligação para abrir no Google Maps.
+- A localização é guardada no campo "address".
+
+7) Regras Firestore
+- As regras foram alinhadas com os campos usados pelo index.html: nome, profissao, empresa, descricao, telefone, whatsapp, email, facebook, instagram, tiktok, website, address e logo.
+- A leitura individual dos cartões é pública; listagem e operações de escrita exigem o administrador verificado.
+- O limite de 700 KB do ficheiro de logótipo e o tamanho total do documento são verificados no código da aplicação. As Security Rules não impõem sozinhas o limite em bytes do documento.
