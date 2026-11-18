@@ -45,7 +45,7 @@ service cloud.firestore {
     match /cards/{cardId} {
       // 1. VISITORS: Anyone can read a specific card to display on scan or shared link
       allow get: if isValidId(cardId);
-      
+
       // 2. ADMIN ONLY: Can list the card directory
       allow list: if isVerifiedAdmin();
 

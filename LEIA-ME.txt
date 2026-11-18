@@ -21,7 +21,14 @@ LINKART QR — VERSÃO ADAPTADA PARA GITHUB PAGES
 - Confirme que o método de autenticação Google está activado.
 - Publique o conteúdo de firestore.rules na base de dados Firestore utilizada pela aplicação.
 
-4) Segurança e administração
+4) Logótipos e limite do Firestore
+- A aplicação aceita apenas PNG, JPG e WEBP para logótipos.
+- O limite do ficheiro seleccionado é 700 KB. Imagens maiores são rejeitadas; não há redução nem compressão automática.
+- O logótipo é guardado no próprio documento Firestore como imagem Base64, mantendo os bytes originais do ficheiro.
+- Antes de guardar, a aplicação verifica o tamanho UTF-8 do documento e bloqueia gravações acima de 1.000.000 bytes para manter uma margem abaixo do limite máximo de 1 MiB do Firestore.
+- Como a codificação Base64 aumenta o tamanho, 700 KB é um limite prático, não uma garantia para cartões com muitos outros dados. Se o documento ultrapassar o limite seguro, será necessário usar um logótipo menor ou encurtar os restantes campos.
+
+5) Segurança e administração
 - A conta administradora definida no código e nas regras é dariocarlos517@gmail.com.
 - A configuração web do Firebase no HTML é pública por natureza; a protecção dos dados depende das regras do Firestore.
 - Não torne as regras mais permissivas para resolver erros de acesso.
@@ -29,3 +36,10 @@ LINKART QR — VERSÃO ADAPTADA PARA GITHUB PAGES
 
 NOTA
 A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do GitHub Pages. O funcionamento completo ainda depende de o projecto Firebase, a base de dados indicada, a autenticação Google, o domínio autorizado e as regras estarem correctamente configurados.
+
+
+5) Regras Firestore incluídas nesta versão
+- O ficheiro firestore.rules contém as regras de segurança fornecidas para o LINKART QR.
+- A leitura individual de cartões é pública para qualquer ID válido; a listagem e as operações de escrita exigem o administrador verificado.
+- A validação dos campos do cartão e a verificação de createdBy/ownerEmail são aplicadas na criação e actualização.
+- O limite de 700 KB do logótipo é validado pela aplicação; não é imposto directamente pelas Security Rules.
