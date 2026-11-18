@@ -1,14 +1,69 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isAdmin() {
-      return request.auth != null
+    // Global Safety Net: default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedAdmin() {
+      return isSignedIn()
         && request.auth.token.email == 'dariocarlos517@gmail.com'
         && request.auth.token.email_verified == true;
     }
-    match /cards/{slug} {
-      allow get: if resource.data.status == 'ativo' || isAdmin();
-      allow list, create, update, delete: if isAdmin();
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidCard(data) {
+      return data.representativeName is string && data.representativeName.size() <= 100
+        && data.companyName is string && data.companyName.size() <= 100
+        && (!('jobTitle' in data) || (data.jobTitle is string && data.jobTitle.size() <= 100))
+        && (!('bio' in data) || (data.bio is string && data.bio.size() <= 500))
+        && (!('phone' in data) || (data.phone is string && data.phone.size() <= 50))
+        && (!('whatsapp' in data) || (data.whatsapp is string && data.whatsapp.size() <= 50))
+        && (!('email' in data) || (data.email is string && data.email.size() <= 100))
+        && (!('instagram' in data) || (data.instagram is string && data.instagram.size() <= 100))
+        && (!('facebook' in data) || (data.facebook is string && data.facebook.size() <= 100))
+        && (!('linkedin' in data) || (data.linkedin is string && data.linkedin.size() <= 100))
+        && (!('website' in data) || (data.website is string && data.website.size() <= 200))
+        && (!('tiktok' in data) || (data.tiktok is string && data.tiktok.size() <= 100))
+        && (!('address' in data) || (data.address is string && data.address.size() <= 200))
+        && (!('theme' in data) || (data.theme is string && data.theme.size() <= 50))
+        && (!('logoType' in data) || (data.logoType is string && data.logoType.size() <= 50))
+        && (!('customLogoUrl' in data) || (data.customLogoUrl is string && data.customLogoUrl.size() <= 500))
+        && data.createdBy == request.auth.uid
+        && data.ownerEmail == 'dariocarlos517@gmail.com';
+    }
+
+    match /cards/{cardId} {
+      // 1. VISITORS: Anyone can read a specific card to display on scan or shared link
+      allow get: if isValidId(cardId);
+      
+      // 2. ADMIN ONLY: Can list the card directory
+      allow list: if isVerifiedAdmin();
+
+      // 3. ADMIN ONLY: Only verified dariocarlos517@gmail.com can create cards
+      allow create: if isVerifiedAdmin()
+        && isValidId(cardId)
+        && isValidCard(request.resource.data);
+
+      // 4. ADMIN ONLY: Only verified dariocarlos517@gmail.com can update cards
+      allow update: if isVerifiedAdmin()
+        && isValidId(cardId)
+        && isValidCard(request.resource.data)
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.ownerEmail == resource.data.ownerEmail;
+
+      // 5. ADMIN ONLY: Only verified dariocarlos517@gmail.com can delete cards
+      allow delete: if isVerifiedAdmin()
+        && isValidId(cardId);
     }
   }
 }
