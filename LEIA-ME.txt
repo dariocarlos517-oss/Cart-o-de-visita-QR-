@@ -1,0 +1,31 @@
+LINKART QR — VERSÃO ADAPTADA PARA GITHUB PAGES
+
+1) Publicar no GitHub
+- Crie ou abra o repositório onde pretende alojar a aplicação.
+- Carregue os ficheiros desta pasta directamente na raiz do repositório (index.html, firestore.rules e este LEIA-ME.txt).
+- No GitHub, abra Settings > Pages.
+- Em Build and deployment, escolha Deploy from a branch.
+- Seleccione a branch (normalmente main) e a pasta /(root), depois clique Save.
+- Aguarde a publicação. O endereço será semelhante a https://UTILIZADOR.github.io/NOME-DO-REPOSITORIO/
+
+2) Como funcionam os QR Codes
+- Esta versão usa rotas com fragmento: https://UTILIZADOR.github.io/NOME-DO-REPOSITORIO/#/c/IDENTIFICADOR.
+- Este formato é compatível com GitHub Pages e não necessita de _redirects nem de ficheiro 404.
+- Na aplicação, em Endereço do site (opcional), deixe o campo vazio para usar automaticamente o endereço actual.
+- Se preencher esse campo, indique a URL base completa do GitHub Pages, incluindo o nome do repositório e sem # no fim. Ex.: https://UTILIZADOR.github.io/NOME-DO-REPOSITORIO
+
+3) Firebase — atenção antes de usar
+- O index.html já contém uma configuração Firebase existente (projectId: proverbial-anagram-wdtd0). Não crie outro projecto sem substituir também a configuração no index.html.
+- A aplicação utiliza a base de dados Firestore com o identificador: ai-studio-linkartqrmanager-bf986154-10ce-4dec-b45b-654bd3d574c0. Confirme que essa base de dados existe no projecto Firebase configurado.
+- Em Firebase Console > Authentication > Settings > Authorized domains, adicione o domínio do GitHub Pages: UTILIZADOR.github.io (sem https:// e sem caminho do repositório).
+- Confirme que o método de autenticação Google está activado.
+- Publique o conteúdo de firestore.rules na base de dados Firestore utilizada pela aplicação.
+
+4) Segurança e administração
+- A conta administradora definida no código e nas regras é dariocarlos517@gmail.com.
+- A configuração web do Firebase no HTML é pública por natureza; a protecção dos dados depende das regras do Firestore.
+- Não torne as regras mais permissivas para resolver erros de acesso.
+- Teste o login com a conta administradora, a criação de um cartão, a abertura do QR num navegador anónimo e as exportações PNG/JPG/PDF.
+
+NOTA
+A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do GitHub Pages. O funcionamento completo ainda depende de o projecto Firebase, a base de dados indicada, a autenticação Google, o domínio autorizado e as regras estarem correctamente configurados.
