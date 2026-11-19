@@ -63,3 +63,13 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - As regras foram alinhadas com os campos usados pelo index.html: nome, profissao, empresa, descricao, telefone, whatsapp, email, facebook, instagram, tiktok, website, address e logo.
 - A leitura individual dos cartões é pública; listagem e operações de escrita exigem o administrador verificado.
 - O limite de 700 KB do ficheiro de logótipo e o tamanho total do documento são verificados no código da aplicação. As Security Rules não impõem sozinhas o limite em bytes do documento.
+
+
+8) Mapa do local exacto a partir de links do Google Maps
+- No campo Localização pode colar: um link curto (maps.app.goo.gl/…), um link completo do Google Maps, coordenadas (ex.: -25.9692, 32.5732) ou uma morada em texto.
+- Ao clicar em "Verificar localização" ou "Guardar cartão", a aplicação identifica o destino real do link e guarda no próprio documento do cartão: mapLat, mapLng e mapLabel. A página pública usa essas coordenadas e mostra o mapa do local exacto (sem pedir nada a serviços externos para o resolver).
+- O campo "address" continua a guardar o que foi colado (máx. 200 caracteres; se o link completo for maior, é substituído pelo nome/coordenadas).
+- Links curtos: o navegador não consegue ler o destino de um link curto directamente (bloqueio CORS do Google). Por isso a aplicação usa serviços públicos de redirecionamento como alternativa (allorigins.win e corsproxy.io). Para maior fiabilidade, publique o resolvedor gratuito resolver-cloudflare-worker.js no Cloudflare Workers e coloque o seu endereço em MAP_RESOLVER no início do bloco de mapa do index.html.
+- Se o link curto não puder ser resolvido, o cartão pode ser guardado na mesma: ao abrir, tenta resolver novamente e, se falhar, mostra o botão "Abrir no Google Maps". A forma garantida é colar o link completo (aberto no navegador) ou as coordenadas.
+- Cartões antigos com link no campo Localização passam a mostrar o mapa ao abrir (se a resolução funcionar); volte a guardá-los para gravar as coordenadas de forma definitiva.
+- Publique de novo o firestore.rules: foram acrescentadas validações opcionais para mapLat, mapLng e mapLabel. Firestore, limite de 700 KB dos logótipos, TikTok, QR, exportações e restantes funcionalidades ficam inalterados.
