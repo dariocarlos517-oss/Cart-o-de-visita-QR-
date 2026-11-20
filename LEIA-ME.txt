@@ -73,3 +73,18 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - Se o link curto não puder ser resolvido, o cartão pode ser guardado na mesma: ao abrir, tenta resolver novamente e, se falhar, mostra o botão "Abrir no Google Maps". A forma garantida é colar o link completo (aberto no navegador) ou as coordenadas.
 - Cartões antigos com link no campo Localização passam a mostrar o mapa ao abrir (se a resolução funcionar); volte a guardá-los para gravar as coordenadas de forma definitiva.
 - Publique de novo o firestore.rules: foram acrescentadas validações opcionais para mapLat, mapLng e mapLabel. Firestore, limite de 700 KB dos logótipos, TikTok, QR, exportações e restantes funcionalidades ficam inalterados.
+
+
+7) Tamanho padrão e PDF A4
+- Novos cartões são criados por defeito com 8,5 × 5,4 cm, na horizontal. Os cartões já guardados mantêm o tamanho que têm; basta mudar em "Tamanho do cartão" e guardar.
+- O botão "Baixar PDF (A4)" gera uma página A4 vertical com a frente e o verso lado a lado, à escala real, com margem de 1,5 cm em cima, 0,6 cm entre a frente e o verso e contorno cinzento tracejado fino para facilitar o corte.
+- Se o cartão for demasiado grande para caber em A4 (lado a lado, ou um sobre o outro), o PDF usa uma página à medida do conteúdo.
+
+
+8) Modelos de cores
+- No editor do cartão, "Modelo de cores" permite escolher entre Clássico (por defeito, o que já existia), Preto e laranja, Branco e azul-marinho, Azul-marinho e Preto e verde-limão.
+- O modelo aplica-se à frente e ao verso, à pré-visualização, ao PNG, ao JPG e ao PDF, e também às cores do cabeçalho e dos botões da página pública.
+- O logotipo mantém sempre a cor original. Nos modelos escuros a frente tem fundo branco, com as faixas coloridas nos cantos, e o verso mantém o fundo escuro, com o logotipo sobre um painel branco.
+- O QR code fica sempre preto sobre painel branco, para continuar legível.
+- Os cartões antigos, sem modelo guardado, continuam Clássicos.
+- IMPORTANTE: publique de novo o conteúdo de firestore.rules no Firebase (inclui os campo tema).
