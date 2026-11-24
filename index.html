@@ -111,23 +111,23 @@ else if(k=='verd'){mdTri(x,[[.90*W,0],[W,0],[W,.15*H]],mdMix(P.m,'#ffffff',.1));
 else if(k=='curv'){x.fillStyle='#0b2a5e';x.beginPath();x.moveTo(.90*W,0);x.lineTo(W,0);x.lineTo(W,.50*H);x.bezierCurveTo(.94*W,.42*H,.90*W,.25*H,.90*W,0);x.closePath();x.fill();
 x.fillStyle=P.m;x.beginPath();x.moveTo(.72*W,H);x.bezierCurveTo(.85*W,.96*H,.96*W,.83*H,W,.64*H);x.lineTo(W,H);x.closePath();x.fill();
 x.strokeStyle='#2f5fe0';x.lineWidth=H*.008;x.beginPath();x.moveTo(.73*W,H);x.bezierCurveTo(.86*W,.965*H,.965*W,.835*H,W,.65*H);x.stroke()}}
-const MB={fxal:{bk:'#0b0d12',br:'#ffb81c',ic:'b',box:1},curv:{bk:'#ffffff',br:'#aeb4c2',ic:'n',box:0},fxro:{bk:'#0d1f55',br:'#ffffff',ic:'r',box:1},verd:{bk:'#0b0d0a',br:'',ic:'r',box:1}};
+const MB={fxal:{bk:'#0b0d12',br:'',ic:'b',box:1},curv:{bk:'#ffffff',br:'#aeb4c2',ic:'n',box:0},fxro:{bk:'#0d1f55',br:'',ic:'b',box:1},verd:{bk:'#0b0d0a',br:'',ic:'b',box:1}};
 function mdPaintB(c,side,x,W,H,im,P,k){const B=MB[k],fr=side=='frente';x.fillStyle=fr?'#fff':B.bk;x.fillRect(0,0,W,H);mdDecor(x,W,H,k,P);
 if(fr){mdLogo(x,im,W/2,H/2,W*.50,H*.50);return}
 const ic=mdKeys(c),S=H*.46,qx=(W-S)/2,qy=H*.25;
-if(B.box){const r=Math.min(W*.22/im.width,H*.11/im.height),w=im.width*r,h=im.height*r,pd=H*.025;x.fillStyle='#fff';mdRR(x,W/2-w/2-pd,H*.035,w+2*pd,h+2*pd,H*.035);x.fill();mdLogo(x,im,W/2,H*.035+pd+h/2,w,h);x.fillStyle='#fff';mdRR(x,qx,qy,S,S,H*.04);x.fill();mdQR(x,c,qx,qy,S,'#000',4)}
+if(B.box){const sx=Math.round(W*.26),sw=Math.round(W*.48);x.fillStyle='#fff';x.fillRect(sx,0,sw,H);mdLogo(x,im,W/2,H*.115,W*.24,H*.14);mdQR(x,c,qx,qy,S,'#000',4)}
 else{mdLogo(x,im,W/2,H*.115,W*.26,H*.13);mdQR(x,c,qx,qy,S,'#000',4)}
-mdBr(x,qx,qy,S,B.br||P.m);
-if(ic.length){const d=H*.085,g=H*.02,tw=ic.length*d+(ic.length-1)*g;mdIcons(x,c,ic,(W-tw)/2,H*.875,d,g,B.ic)}}
+mdBr(x,qx,qy,S,B.br||mdMix(P.m,'#000000',.12));
+if(ic.length){const d=B.box?H*.07:H*.085,g=B.box?H*.018:H*.02,tw=ic.length*d+(ic.length-1)*g;mdIcons(x,c,ic,(W-tw)/2,H*.875,d,g,B.ic)}}
 function mdPaint(c,side,x,W,H,im){const P=mdPal(c),k=c.modelo;if(MB[k])return mdPaintB(c,side,x,W,H,im,P,k);
-const ic=mdKeys(c),S=ic.length?H*.44:H*.52,qy=ic.length?H*.845-S:H-H*.07-S,fr=side=='frente';
+const ic=mdKeys(c),S=ic.length?H*.47:H*.55,qy=ic.length?H*.85-S:H-H*.06-S,fr=side=='frente',X0=k=='laranja'?W*.08:W*.07,id=H*.08,ig=H*.02,tw=ic.length*id+Math.max(0,ic.length-1)*ig,qxv=df=>ic.length?Math.max(X0,X0+tw/2-S/2):df;
 x.fillStyle=k=='laranja'?(fr?'#fff':'#f2eee7'):'#fff';x.fillRect(0,0,W,H);
-if(k=='azul'){mdAzul(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.60,H/2,W*.44,H*.56);else{mdText(x,c,{X:W*.07,maxW:W*.45,y:H*.14,H,upper:1,cols:[P.d,P.m],pc:'#333',pI:1});mdQR(x,c,W*.52-S,qy,S,P.d)}}
-else if(k=='rosa'){mdRosa(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.58,H/2,W*.46,H*.56);else{mdText(x,c,{X:W*.07,maxW:W*.57,y:H*.14,H,upper:1,cols:[P.m,P.d],pc:'#333',pI:1,under:1});mdQR(x,c,W*.64-S,qy,S,P.d)}}
-else if(k=='vermelho'){mdVerm(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.62,H/2,W*.46,H*.52);else{mdText(x,c,{X:W*.07,maxW:W*.58,y:H*.14,H,upper:1,cols:[P.m,P.d],pc:P.d,pB:1});mdQR(x,c,W*.62-S,qy,S,P.d)}}
+if(k=='azul'){mdAzul(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.60,H/2,W*.44,H*.56);else{mdText(x,c,{X:W*.07,maxW:W*.45,y:H*.14,H,upper:1,cols:[P.d,P.m],pc:'#333',pI:1});mdQR(x,c,qxv(W*.52-S),qy,S,P.d)}}
+else if(k=='rosa'){mdRosa(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.58,H/2,W*.46,H*.56);else{mdText(x,c,{X:W*.07,maxW:W*.57,y:H*.14,H,upper:1,cols:[P.m,P.d],pc:'#333',pI:1,under:1});mdQR(x,c,qxv(W*.64-S),qy,S,P.d)}}
+else if(k=='vermelho'){mdVerm(x,W,H,P,fr);if(fr)mdLogo(x,im,W*.62,H/2,W*.46,H*.52);else{mdText(x,c,{X:W*.07,maxW:W*.58,y:H*.14,H,upper:1,cols:[P.m,P.d],pc:P.d,pB:1});mdQR(x,c,qxv(W*.62-S),qy,S,P.d)}}
 else if(k=='laranja'){if(fr)mdLogo(x,im,W/2,H/2,W*.56,H*.56);
-else{if(!ic.length)mdLogo(x,im,W*.20,H*.77,W*.22,H*.2,.16);mdText(x,c,{X:W*.08,maxW:W*.84,y:H*.14,H,serif:1,cols:[P.m,P.m],pc:P.d});mdQR(x,c,W*.92-S,qy,S,P.d)}}
-if(!fr&&ic.length)mdIcons(x,c,ic,k=='laranja'?W*.08:W*.07,H*.90,H*.085,H*.02)}
+else{if(!ic.length)mdLogo(x,im,W*.20,H*.77,W*.22,H*.2,.16);mdText(x,c,{X:W*.08,maxW:W*.84,y:H*.14,H,serif:1,cols:[P.m,P.m],pc:P.d});mdQR(x,c,qxv(W*.92-S),qy,S,P.d)}}
+if(!fr&&ic.length)mdIcons(x,c,ic,X0,H*.905,id,ig)}
 function mdDraw(c,side,x,W,H,im){if(H>W){const t=document.createElement('canvas');t.width=H;t.height=W;mdPaint(c,side,t.getContext('2d'),H,W,im);x.save();x.translate(W,0);x.rotate(Math.PI/2);x.drawImage(t,0,0);x.restore()}else mdPaint(c,side,x,W,H,im)}
 async function thumbsUI(c){const box=$('#md');if(!box)return;const cur=c.modelo||'classico',fr=document.createDocumentFragment();for(const k of Object.keys(MOD)){const cc={...c,modelo:k,cor:k==cur?c.cor:'',size:'bi',ori:'h',nome:c.nome||'Nome Apelido',profissao:c.profissao||'Profissão'},cv=await draw(cc,'verso',60),b=document.createElement('button');b.type='button';b.className='btn mdl'+(k==cur?' on':'');b.innerHTML=`<img src="${cv.toDataURL()}"><span>${MOD[k].n}</span>`;b.onclick=()=>box.dispatchEvent(new CustomEvent('pick',{detail:k}));fr.append(b)}box.replaceChildren(fr)}
 const blob=(cv,t='image/png')=>new Promise(r=>cv.toBlob(r,t,.95));
@@ -145,7 +145,7 @@ const ADMIN='dariocarlos517@gmail.com';
 const load=async()=>{S.cards=await FB.all()};
 function setup(){app.innerHTML=`<div class="pub"><img class="lg" src="${LOGO}"><h2>Falta configurar o Firebase</h2><p style="color:var(--m)">Cole a configuração do seu projeto no início do ficheiro (FIREBASE_CONFIG). Veja o LEIA-ME.</p></div>`}
 function login(msg){app.innerHTML=`<div class="pub"><img class="lg" src="${LOGO}"><h2>LINKART QR</h2><p style="color:var(--m)">Área do administrador</p><button class="btn pri" id="go">Entrar com Google</button>${msg?`<p class="dng">${msg}</p>`:''}</div>`;$('#go').onclick=async()=>{try{await FB.login();route()}catch(e){login('Falha no login: '+(e.code||e.message))}}}
-function shell(h){app.innerHTML=`<header><img src="${LOGO}"><b>LINKART QR</b><small style="color:var(--m)">Gestão de cartões digitais</small><nav><a class="btn" href="#/admin">Dashboard</a><a class="btn pri" href="#/admin/new">+ Criar novo cartão</a><button class="btn" id="out">Sair</button></nav></header><main>${h}</main>`;$('#out').onclick=async()=>{await FB.logout();route()}}
+function shell(h){app.innerHTML=`<header><img src="${LOGO}"><b>LINKART QR</b><small style="color:var(--m)">Gestão de cartões digitais · versão 4</small><nav><a class="btn" href="#/admin">Dashboard</a><a class="btn pri" href="#/admin/new">+ Criar novo cartão</a><button class="btn" id="out">Sair</button></nav></header><main>${h}</main>`;$('#out').onclick=async()=>{await FB.logout();route()}}
 let q='';
 async function list(){await load();const C=S.cards,at=C.filter(c=>c.status=='ativo').length;shell(`<div class="st"><div><b>${C.length}</b>Total de cartões</div><div><b>${at}</b>Ativos</div><div><b>${C.length-at}</b>Inativos</div><div><b>${C.length}</b>QR Codes criados</div></div><input id="q" placeholder="Pesquisar por nome" value="${esc(q)}"><div class="g" id="gr" style="margin-top:12px"></div><div class="pn" style="margin-top:16px"><label>Endereço do site (opcional; por defeito usa o endereço atual)</label><input id="bs" value="${esc(S.base)}" placeholder="${esc(location.origin)}"><button class="btn" id="sb" style="margin-top:8px">Guardar endereço</button></div>`);
 $('#sb').onclick=()=>{S.base=$('#bs').value.trim();localStorage.setItem('lkq_base',S.base);alert('Guardado')};

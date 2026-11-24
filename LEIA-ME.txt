@@ -96,3 +96,7 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - O QR Code ficou maior em todos os modelos novos.
 - No modelo Laranja minimalista a frente passou a ser toda branca com o logotipo.
 
+10) Versão 4
+- Nos modelos com nome e profissão, o QR Code fica centrado em relação à linha de ícones (afastado para a esquerda).
+- Nos modelos Faixas azul e laranja, Faixas azul e rosa e Verde e preto, o logotipo, o QR Code e os ícones ficam numa faixa branca vertical que vai de cima a baixo do cartão, em vez de caixas brancas por cima do fundo escuro.
+
