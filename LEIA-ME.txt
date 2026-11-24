@@ -81,10 +81,12 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - Se o cartão for demasiado grande para caber em A4 (lado a lado, ou um sobre o outro), o PDF usa uma página à medida do conteúdo.
 
 
-8) Modelos de cores
-- No editor do cartão, "Modelo de cores" permite escolher entre Clássico (por defeito, o que já existia), Preto e laranja, Branco e azul-marinho, Azul-marinho e Preto e verde-limão.
-- O modelo aplica-se à frente e ao verso, à pré-visualização, ao PNG, ao JPG e ao PDF, e também às cores do cabeçalho e dos botões da página pública.
-- O logotipo mantém sempre a cor original. Nos modelos escuros a frente tem fundo branco, com as faixas coloridas nos cantos, e o verso mantém o fundo escuro, com o logotipo sobre um painel branco.
-- O QR code fica sempre preto sobre painel branco, para continuar legível.
-- Os cartões antigos, sem modelo guardado, continuam Clássicos.
-- IMPORTANTE: publique de novo o conteúdo de firestore.rules no Firebase (inclui os campo tema).
+8) Modelos de cartão com nome, profissão e QR Code
+- No editor, a secção "Modelo do cartão" oferece 5 opções: Clássico (o desenho anterior), Ondas azuis, Rosa moderno, Vermelho e preto e Laranja minimalista.
+- Nos modelos novos a frente leva só o logotipo e o verso leva o nome, a profissão e o QR Code. Não são impressos telefone, email nem outros contactos: esses ficam na página aberta pelo QR.
+- A "Cor do modelo" muda a cor principal do desenho; "Cor original" repõe a cor de origem.
+- Os modelos são horizontais. Se o cartão estiver em vertical, escolher um modelo novo passa-o para horizontal.
+- Nomes compridos reduzem de tamanho e passam a duas linhas.
+- Cartões já guardados ficam como estavam (Clássico). Cada cartão guarda o modelo escolhido nos campos "modelo" e "cor".
+- Publique de novo o firestore.rules: foram acrescentadas validações opcionais para "modelo" e "cor".
+- Ícones de contacto: no verso dos modelos novos aparecem, por esta ordem, telefone, email, WhatsApp, Instagram, Facebook, TikTok, website e localização, mas só os campos que estiverem preenchidos. Os ícones têm as cores reais de cada marca. O telefone, o email e os outros contactos continuam só na página aberta pelo QR; no cartão aparece o ícone, não o número nem o endereço.

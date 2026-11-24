@@ -52,7 +52,8 @@ service cloud.firestore {
         && (!('w' in data) || data.w is number)
         && (!('h' in data) || data.h is number)
         && (!('ori' in data) || (data.ori is string && data.ori.size() <= 5))
-        && (!('tema' in data) || data.tema in ['classico', 'preto-laranja', 'branco-azul', 'azul-marinho', 'preto-lima'])
+        && (!('modelo' in data) || (data.modelo is string && data.modelo.size() <= 20))
+        && (!('cor' in data) || (data.cor is string && data.cor.size() <= 9))
         && (!('status' in data) || data.status in ['ativo', 'inativo'])
         && (!('createdAt' in data) || data.createdAt is number)
         && (!('updatedAt' in data) || data.updatedAt is number);
