@@ -90,3 +90,9 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - Cartões já guardados ficam como estavam (Clássico). Cada cartão guarda o modelo escolhido nos campos "modelo" e "cor".
 - Publique de novo o firestore.rules: foram acrescentadas validações opcionais para "modelo" e "cor".
 - Ícones de contacto: no verso dos modelos novos aparecem, por esta ordem, telefone, email, WhatsApp, Instagram, Facebook, TikTok, website e localização, mas só os campos que estiverem preenchidos. Os ícones têm as cores reais de cada marca. O telefone, o email e os outros contactos continuam só na página aberta pelo QR; no cartão aparece o ícone, não o número nem o endereço.
+
+9) Mais 4 modelos (logotipo, QR Code e ícones) e QR maior
+- Novos modelos no editor: Faixas azul e laranja, Curvas navy e laranja, Faixas azul e rosa e Verde e preto. A frente leva o logotipo e o verso leva o logotipo, o QR Code com cantos e os ícones de contacto. O Clássico continua a ser o primeiro modelo da lista.
+- O QR Code ficou maior em todos os modelos novos.
+- No modelo Laranja minimalista a frente passou a ser toda branca com o logotipo.
+
