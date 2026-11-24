@@ -111,14 +111,14 @@ else if(k=='verd'){mdTri(x,[[.90*W,0],[W,0],[W,.15*H]],mdMix(P.m,'#ffffff',.1));
 else if(k=='curv'){x.fillStyle='#0b2a5e';x.beginPath();x.moveTo(.90*W,0);x.lineTo(W,0);x.lineTo(W,.50*H);x.bezierCurveTo(.94*W,.42*H,.90*W,.25*H,.90*W,0);x.closePath();x.fill();
 x.fillStyle=P.m;x.beginPath();x.moveTo(.72*W,H);x.bezierCurveTo(.85*W,.96*H,.96*W,.83*H,W,.64*H);x.lineTo(W,H);x.closePath();x.fill();
 x.strokeStyle='#2f5fe0';x.lineWidth=H*.008;x.beginPath();x.moveTo(.73*W,H);x.bezierCurveTo(.86*W,.965*H,.965*W,.835*H,W,.65*H);x.stroke()}}
-const MB={fxal:{bk:'#0b0d12',br:'',ic:'b',box:1},curv:{bk:'#ffffff',br:'#aeb4c2',ic:'n',box:0},fxro:{bk:'#0d1f55',br:'',ic:'b',box:1},verd:{bk:'#0b0d0a',br:'',ic:'b',box:1}};
+const MB={fxal:{bk:'#ffffff',br:'',ic:'b',box:1},curv:{bk:'#ffffff',br:'#aeb4c2',ic:'n',box:0},fxro:{bk:'#ffffff',br:'',ic:'b',box:1},verd:{bk:'#ffffff',br:'',ic:'b',box:1}};
 function mdPaintB(c,side,x,W,H,im,P,k){const B=MB[k],fr=side=='frente';x.fillStyle=fr?'#fff':B.bk;x.fillRect(0,0,W,H);mdDecor(x,W,H,k,P);
 if(fr){mdLogo(x,im,W/2,H/2,W*.50,H*.50);return}
-const ic=mdKeys(c),S=H*.46,qx=(W-S)/2,qy=H*.25;
-if(B.box){const sx=Math.round(W*.26),sw=Math.round(W*.48);x.fillStyle='#fff';x.fillRect(sx,0,sw,H);mdLogo(x,im,W/2,H*.115,W*.24,H*.14);mdQR(x,c,qx,qy,S,'#000',4)}
+const ic=mdKeys(c),S=H*.5,qx=(W-S)/2,qy=H*.245;
+if(B.box){mdLogo(x,im,W/2,H*.115,W*.24,H*.14);mdQR(x,c,qx,qy,S,'#000',4)}
 else{mdLogo(x,im,W/2,H*.115,W*.26,H*.13);mdQR(x,c,qx,qy,S,'#000',4)}
 mdBr(x,qx,qy,S,B.br||mdMix(P.m,'#000000',.12));
-if(ic.length){const d=B.box?H*.07:H*.085,g=B.box?H*.018:H*.02,tw=ic.length*d+(ic.length-1)*g;mdIcons(x,c,ic,(W-tw)/2,H*.875,d,g,B.ic)}}
+if(ic.length){const d=H*.085,g=H*.02,tw=ic.length*d+(ic.length-1)*g;mdIcons(x,c,ic,(W-tw)/2,H*.875,d,g,B.ic)}}
 function mdPaint(c,side,x,W,H,im){const P=mdPal(c),k=c.modelo;if(MB[k])return mdPaintB(c,side,x,W,H,im,P,k);
 const ic=mdKeys(c),S=ic.length?H*.47:H*.55,qy=ic.length?H*.85-S:H-H*.06-S,fr=side=='frente',X0=k=='laranja'?W*.08:W*.07,id=H*.08,ig=H*.02,tw=ic.length*id+Math.max(0,ic.length-1)*ig,qxv=df=>ic.length?Math.max(X0,X0+tw/2-S/2):df;
 x.fillStyle=k=='laranja'?(fr?'#fff':'#f2eee7'):'#fff';x.fillRect(0,0,W,H);
@@ -145,7 +145,7 @@ const ADMIN='dariocarlos517@gmail.com';
 const load=async()=>{S.cards=await FB.all()};
 function setup(){app.innerHTML=`<div class="pub"><img class="lg" src="${LOGO}"><h2>Falta configurar o Firebase</h2><p style="color:var(--m)">Cole a configuração do seu projeto no início do ficheiro (FIREBASE_CONFIG). Veja o LEIA-ME.</p></div>`}
 function login(msg){app.innerHTML=`<div class="pub"><img class="lg" src="${LOGO}"><h2>LINKART QR</h2><p style="color:var(--m)">Área do administrador</p><button class="btn pri" id="go">Entrar com Google</button>${msg?`<p class="dng">${msg}</p>`:''}</div>`;$('#go').onclick=async()=>{try{await FB.login();route()}catch(e){login('Falha no login: '+(e.code||e.message))}}}
-function shell(h){app.innerHTML=`<header><img src="${LOGO}"><b>LINKART QR</b><small style="color:var(--m)">Gestão de cartões digitais · versão 4</small><nav><a class="btn" href="#/admin">Dashboard</a><a class="btn pri" href="#/admin/new">+ Criar novo cartão</a><button class="btn" id="out">Sair</button></nav></header><main>${h}</main>`;$('#out').onclick=async()=>{await FB.logout();route()}}
+function shell(h){app.innerHTML=`<header><img src="${LOGO}"><b>LINKART QR</b><small style="color:var(--m)">Gestão de cartões digitais · versão 6</small><nav><a class="btn" href="#/admin">Dashboard</a><a class="btn pri" href="#/admin/new">+ Criar novo cartão</a><button class="btn" id="out">Sair</button></nav></header><main>${h}</main>`;$('#out').onclick=async()=>{await FB.logout();route()}}
 let q='';
 async function list(){await load();const C=S.cards,at=C.filter(c=>c.status=='ativo').length;shell(`<div class="st"><div><b>${C.length}</b>Total de cartões</div><div><b>${at}</b>Ativos</div><div><b>${C.length-at}</b>Inativos</div><div><b>${C.length}</b>QR Codes criados</div></div><input id="q" placeholder="Pesquisar por nome" value="${esc(q)}"><div class="g" id="gr" style="margin-top:12px"></div><div class="pn" style="margin-top:16px"><label>Endereço do site (opcional; por defeito usa o endereço atual)</label><input id="bs" value="${esc(S.base)}" placeholder="${esc(location.origin)}"><button class="btn" id="sb" style="margin-top:8px">Guardar endereço</button></div>`);
 $('#sb').onclick=()=>{S.base=$('#bs').value.trim();localStorage.setItem('lkq_base',S.base);alert('Guardado')};
@@ -171,11 +171,19 @@ mapHydrate(c,el);el.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>{navi
 $('#vc',el).onclick=()=>{const v=`BEGIN:VCARD\nVERSION:3.0\nFN:${c.nome}\nORG:${c.empresa||''}\nTITLE:${c.profissao||''}\n${c.telefone?'TEL;TYPE=CELL:'+c.telefone+'\n':''}${c.whatsapp?'TEL;TYPE=WORK:'+c.whatsapp+'\n':''}${c.email?'EMAIL:'+c.email+'\n':''}${c.website?'URL:'+sc(c.website)+'\n':''}${addrTxt(c)?'ADR;TYPE=WORK:;;'+addrTxt(c)+';;;;\n':''}${c.mapLat!=null?'GEO:'+c.mapLat+';'+c.mapLng+'\n':''}END:VCARD`;dlBlob((c.slug||'contacto')+'.vcf',new Blob([v],{type:'text/vcard'}))};
 $('#sh',el).onclick=()=>{const u=urlOf(c);navigator.share?navigator.share({title:c.nome,url:u}).catch(()=>{}):navigator.clipboard.writeText(u).then(()=>alert('Link copiado'))}}
 function phone(c){const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#000d;z-index:9;display:flex;align-items:center;justify-content:center;overflow:auto;padding:16px;animation:f .3s';o.innerHTML=`<div style="width:min(380px,100%)"><div class="r" style="justify-content:space-between"><b>Ecrã do telemóvel após o scan</b><span><button class="btn" id="fs">Ecrã cheio</button> <button class="btn" id="cl">Fechar</button></span></div><div id="fr" style="border:10px solid #1c2748;border-radius:44px;background:var(--bg);height:640px;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 22px;font-size:12px;color:var(--m)"><span>9:41</span><span style="background:#000;width:90px;height:20px;border-radius:10px"></span><span style="display:flex;gap:6px;align-items:center">${svg('signal',14)}${svg('wifi',14)}${svg('battery',18)}</span></div><div id="in"></div></div></div>`;document.body.append(o);pub(c,$('#in',o),1);$('#cl',o).onclick=()=>o.remove();$('#fs',o).onclick=()=>{const f=$('#fr',o);f.style.height=f.style.height=='88vh'?'640px':'88vh'}}
+
+const FSDB='ai-studio-linkartqrmanager-bf986154-10ce-4dec-b45b-654bd3d574c0';
+function fsVal(v){if('stringValue'in v)return v.stringValue;if('integerValue'in v)return Number(v.integerValue);if('doubleValue'in v)return v.doubleValue;if('booleanValue'in v)return v.booleanValue;if('mapValue'in v)return fsObj(v.mapValue.fields||{});if('arrayValue'in v)return(v.arrayValue.values||[]).map(fsVal);if('timestampValue'in v)return v.timestampValue;return null}
+function fsObj(f){const o={};for(const k in f)o[k]=fsVal(f[k]);return o}
+async function restGet(slug){const C=FIREBASE_CONFIG,ct=new AbortController(),t=setTimeout(()=>ct.abort(),25000);try{const r=await fetch('https://firestore.googleapis.com/v1/projects/'+C.projectId+'/databases/'+FSDB+'/documents/cards/'+encodeURIComponent(slug)+'?key='+C.apiKey,{signal:ct.signal});if(r.status==404)return null;if(!r.ok)throw new Error('HTTP '+r.status);return fsObj((await r.json()).fields||{})}finally{clearTimeout(t)}}
+const errBox=()=>{app.innerHTML='<div class="pub"><p class="off">Não foi possível carregar. Verifique a ligação à internet e tente novamente.</p><button class="btn" id="rt" type="button" style="margin-top:14px">Tentar novamente</button></div>';$('#rt').onclick=()=>route()};
 async function route(){const h=location.hash;let m=location.pathname.match(/^\/c\/([^/]+)/)||h.match(/^#\/c\/(.+)/);
 if(String(FIREBASE_CONFIG.apiKey).startsWith('COLE'))return setup();
 app.innerHTML='<p style="padding:20px">A carregar…</p>';
-await Promise.race([FBREADY,new Promise(r=>setTimeout(r,10000))]);if(!window.FB)return app.innerHTML='<div class="pub"><p class="off">Sem ligação ao Firebase.</p></div>';await FB.ready;
-if(m){let c=null;try{c=await FB.get(decodeURIComponent(m[1]))}catch(e){}return pub(c,app)}
+if(m){const slug=decodeURIComponent(m[1]);let c=null,ok=false;try{c=await restGet(slug);ok=true}catch(e){}
+if(!ok){await Promise.race([FBREADY,new Promise(r=>setTimeout(r,25000))]);if(window.FB){try{await FB.ready;c=await FB.get(slug);ok=true}catch(e){}}}
+if(!ok)return errBox();return pub(c,app)}
+await Promise.race([FBREADY,new Promise(r=>setTimeout(r,30000))]);if(!window.FB)return errBox();await FB.ready;
 if(!FB.user())return login();
 if(!FB.isAdmin()){await FB.logout();return login('Esta conta não tem permissão de administrador.')}
 if(!S.cards.length)await load();
