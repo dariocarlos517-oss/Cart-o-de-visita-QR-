@@ -109,3 +109,6 @@ A adaptação do endereço dos QR Codes resolve a incompatibilidade de rotas do 
 - As regras do Firestore não mudaram: a leitura individual do cartão continua pública, e a listagem e a edição continuam só para o administrador.
 - Se o erro continuar, confirme no Google Cloud Console > APIs e serviços > Credenciais que a chave de API do projeto permite o domínio UTILIZADOR.github.io (restrição de referenciador HTTP) e que a API "Cloud Firestore API" está ativa.
 
+13) Versão 7
+- O verso do modelo Laranja minimalista ganhou círculos decorativos na cor do modelo (um grande no canto, um pequeno mais claro, e, quando há ícones, um anel e um ponto). A cor acompanha a "Cor do modelo".
+
